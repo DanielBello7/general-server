@@ -7,19 +7,20 @@ const path = require('path');
 const fs = require('fs');
 
 
+const httpsOptions = {
+   cert: fs.readFileSync(path.join(__dirname, "cert", "serverCert.pem")),
+   key: fs.readFileSync(path.join(__dirname, "cert", "serverKey.pem"))
+}
+
 const app = express();
-const server = https.createServer({
-   key: fs.readFileSync(path.join(__dirname, "cert", "key.txt")),
-   cert: fs.readFileSync(path.join(__dirname, "cert", "cert.txt"))
-}, app);
+const port = 3400;
+const server = https.createServer(httpsOptions, app);
 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")));
 
-const address = "localhost";
-const port = 3400;
 
 app.get('/', (req, res) => {
    return res.send('Homepage');
@@ -36,5 +37,5 @@ app.get('/.well-known/acme-challenge/-A3mNU61jj4atF2YP9LdY1U7YoVaCM2GZ7cfTUryyys
 
 
 server.listen(port, () => {
-   console.log(`server running on http://${address}:${port}.....`);
+   console.log(`server running on ${port}.....`);
 });
