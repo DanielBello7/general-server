@@ -2,15 +2,16 @@
 
 
 const express = require('express');
-const http = require('http');
+const https = require('https');
 const path = require('path');
 const fs = require('fs');
-// const cloudinary = require('cloudinary');
-// const { check, validationResult } = require('express-validator');
 
 
 const app = express();
-const server = http.createServer(app);
+const server = https.createServer({
+   key: fs.readFileSync(path.join(__dirname, "cert", "key.txt")),
+   cert: fs.readFileSync(path.join(__dirname, "cert", "cert.txt"))
+}, app);
 
 
 app.use(express.json());
