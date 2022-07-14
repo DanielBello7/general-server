@@ -4,8 +4,9 @@
 const express = require('express');
 const http = require('http');
 const path = require('path');
-const cloudinary = require('cloudinary');
-const { check, validationResult } = require('express-validator');
+const fs = require('fs');
+// const cloudinary = require('cloudinary');
+// const { check, validationResult } = require('express-validator');
 
 
 const app = express();
@@ -25,6 +26,11 @@ app.get('/', (req, res) => {
 
 app.get('/pages', (req, res) => {
    return res.send('Pages');
+});
+
+app.get('/.well-known/acme-challenge/-A3mNU61jj4atF2YP9LdY1U7YoVaCM2GZ7cfTUryyys', async (req, res) => {
+   const file = fs.readFileSync(path.join(__dirname, "./public/-A3mNU61jj4atF2YP9LdY1U7YoVaCM2GZ7cfTUryyys"), "utf8");
+   return res.send(file);
 });
 
 
